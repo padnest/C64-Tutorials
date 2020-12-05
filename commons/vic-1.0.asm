@@ -1,5 +1,7 @@
 /*
 	author: padnest@gmail.com
+	assembler: kick assembler 5.16
+
 	changelog:
 		- 1.0:
 			- first release
