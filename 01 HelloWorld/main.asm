@@ -1,3 +1,6 @@
+/*
+	author: padnest@gmail.com
+*/
 BasicUpstart2(start)
 
 start:
