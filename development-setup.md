@@ -1,8 +1,8 @@
 # Padnest's C64 development environment setup
- 1. download and install 'Sublime Text' (my version 3.2.2)   
- 2. download and extract 'Kick Assembler' (my version 5.16) to C:\C64\KickAssembler-5.16
- 3. download and extract 'Vice' C64 emulator (the recommended version is 3.1) to C:\C64\VICE-3.1
- 4. download and extract 'C64 65XE Debugger' (my version 0.64.58)  to C:\C64\65XE-Debugger-0.64.58
+ 1. download and install [Sublime Text](https://www.sublimetext.com) (my version 3.2.2)   
+ 2. download and extract [Kick Assembler](http://theweb.dk/KickAssemble) (my version 5.16) to C:\C64\KickAssembler-5.16
+ 3. download and extract [Vice' C64 emulator](https://vice-emu.sourceforge.io/windows.html) (the recommended version is 3.1) to C:\C64\VICE-3.1
+ 4. download and extract [C64 65XE Debugger](https://sourceforge.net/projects/c64-debugger) (my version 0.64.58)  to C:\C64\65XE-Debugger-0.64.58
  5. setup 'Sublime Text'
 	- Tools > Install Package Control	
 	- Preferences > Package Control > Install package > search Kick Assembler
