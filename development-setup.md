@@ -10,11 +10,11 @@
 	- Preferences > Package Settings > SuBlimeKickAssemblerC64 > Preferences
 		- add on User settings JSON (separated by comma):
 			"kickass_jar_path": "C:/C64/KickAssembler-5.16/KickAss.jar"
-			"kickass_run_path": "c:/C64/VICE-3.1/x64sc"
+			"kickass_run_path": "C:/C64/VICE-3.1/x64sc"
 			"kickass_debug_path": "C:/C64/65XE-Debugger-0.64.58/C64Debugger"
 6. create a workspace (ex: W:\C64\kickassembler) for projects
 7. setup 'Vice'
-	- run c:/C64/VICE-3.1/x64sc
+	- run C:/C64/VICE-3.1/x64sc
 	- Menu > Settings
 		- check 'Save settings on exit'
 		- uncheck 'Confirm on exit'
