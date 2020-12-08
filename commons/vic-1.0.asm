@@ -8,6 +8,8 @@
 */
 .namespace Vic {
 
+	.label SCREEN_START = $0400
+
 	Sprite0: {
 		.label PosX = $d000
 		.label PosY = $d001
@@ -115,11 +117,11 @@
 		.label Status = $d019
 		.label Enabled = $d01a
 
-		.label ACK					= %10000000
 		.label RASTER_LINE 			= %00000001
 		.label SPRITE_BG_COLL 		= %00000010
 		.label SPRITE_SPRITE_COLL 	= %00000100
 		.label LP 					= %00001000
+		.label ACK					= %10000000
 	}
 
 	// doesn't works outside Vic.ClearMSBRasterLine() = syntax error (it should be?)
@@ -148,7 +150,7 @@
 	sta Vic.Screen.RasterLine
 }
 
-.macro SetInterrupts(value) {
+.macro SetVicInterrupts(value) {
 	lda value
 	sta Vic.Interrupts.Enabled
 }
