@@ -6,7 +6,7 @@
 |**$0200 - $9FFF**|RAM							            ||
 |**$A000 - $BFFF**|Basic ROM    				        |CPU writes to RAM (*); VIC reads from RAM|
 |**$C000 - $CFFF**|RAM							            ||
-|**$D000 - $DFFF**|I/O (VIC, SID, CIAs)         |VIC reads from ram (**)|
+|**$D000 - $DFFF**|I/O (VIC, SID, CIAs)         |VIC reads from RAM (**)|
 |**$E000 - $FFFF**|Kernal ROM  					        |CPU writes to RAM (*); VIC reads from RAM|
 
 (*) CPU must bank it out to read from the underneath RAM
