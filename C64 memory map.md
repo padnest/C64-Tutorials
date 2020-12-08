@@ -25,8 +25,8 @@
 | Value   | Result  		              |
 |---------|---------------------------|
 |**000**  |all RAM 					  |
-|**x01**  |Basic and Kernal rom not visible: RAM at $A000 - $BFFF and $E000 - $FFFF|
-|**x10**  |Basic rom not visible: RAM at $A000 - $BFFF |
-|**x11**  |Basic and Kernal rom at $A000 - $BFFF and $E000 - $FFFF|
+|**x01**  |Basic and Kernal ROM not visible: RAM at $A000 - $BFFF and $E000 - $FFFF|
+|**x10**  |Basic ROM not visible: RAM at $A000 - $BFFF |
+|**x11**  |Basic and Kernal ROM at $A000 - $BFFF and $E000 - $FFFF|
 |**0xx**  |Character ROM visible at $D000 - $DFFF (except for the value 000)|
 |**1xx**  |I/O area visible at $D000 - $DFFF (except for the value 100)|
