@@ -6,9 +6,12 @@
 		- 1.0:
 			- first release
 */
+#importonce
+
 .namespace Vic {
 
-	.label SCREEN_START = $0400
+	.label SCREEN_ADDR = $0400
+	.label COLOR_RAM_ADDR = $d800
 
 	Sprite0: {
 		.label PosX = $d000
@@ -86,6 +89,8 @@
 
 	Memory:{
 		.label Setup = $d018
+
+		// CHR_1000 and CHR_1800 in VIC bank #0 ($0000) and #2 ($4000) select Character ROM instead.
 		.label CHR_0000 = %00000000
 		.label CHR_0800 = %00000010
 		.label CHR_1000 = %00000100
@@ -138,19 +143,25 @@
 	}
 }
 
-.macro ClearMSBRasterLine() {
+.macro Vic_ClearMSBRasterLine() {
 	lda Vic.Screen.RasterLine
 	and #$7f
 	sta Vic.Screen.RasterLine
 }
 
-.macro SetMSBRasterLine() {
+.macro Vic_SetMSBRasterLine() {
 	lda Vic.Screen.RasterLine
 	ora #$80
 	sta Vic.Screen.RasterLine
 }
 
-.macro SetVicInterrupts(value) {
+.macro Vic_SetInterrupts(value) {
 	lda value
 	sta Vic.Interrupts.Enabled
+}
+
+.macro Vic_WaitLSBRasterLine(line) {
+	lda #line
+	cmp Vic.Screen.RasterLine
+	bne *-3
 }
