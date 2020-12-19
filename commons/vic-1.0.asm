@@ -62,6 +62,7 @@
 	}
 
 	Sprites: {
+		.label PosX = $d010
 		.label Enabled = $d015
 		.label DoubleHeight = $d017
 		.label Priority = $d01b
@@ -78,6 +79,7 @@
 		.label SPRITE_5 = %00100000
 		.label SPRITE_6 = %01000000
 		.label SPRITE_7 = %10000000
+		.label SPRITE_ALL = $ff
 
 		.label SPRITE_0_PTR = $3f8
 		.label SPRITE_1_PTR = $3f9
@@ -97,6 +99,23 @@
 		.label Background3 = $d024
 		.label Sprites1 = $d025
 		.label Sprites2 = $d026
+
+		.label COLOR_BLACK 	= 0
+		.label COLOR_WHITE 	= 1
+		.label COLOR_RED 	= 2
+		.label COLOR_CYAN 	= 3
+		.label COLOR_PURPLE = 4
+		.label COLOR_GREEN 	= 5
+		.label COLOR_BLUE	= 6
+		.label COLOR_YELLOW = 7
+		.label COLOR_ORANGE = 8
+		.label COLOR_BROWN 	= 9
+		.label COLOR_LT_RED = 10
+		.label COLOR_DK_GREY = 11
+		.label COLOR_MD_GREY = 12
+		.label COLOR_LT_GREEN = 13
+		.label COLOR_LT_BLUE = 14
+		.label COLOR_LT_GRAY = 15
 	}
 
 	Screen:{
@@ -202,6 +221,27 @@
 .macro Vic_SetSpriteDataAddr(screenAddr, spriteNum, addr) {
 	lda #[addr/64]
 	sta screenAddr + $3f8 + spriteNum
+}
+
+.macro Vic_SetSpritePosX(spriteNum, posX){
+	lda #<posX
+	sta Vic.Sprite0.PosX + spriteNum*2
+	lda Vic.Sprites.PosX
+	.if(posX > 255){
+		ora #[pow(2, spriteNum)]
+	}
+	else{
+		and #[255 - pow(2, spriteNum)] 
+	}
+	sta Vic.Sprites.PosX
+}
+.macro Vic_SetSpritePosY(spriteNum, posY){
+	lda #<posY
+	sta Vic.Sprite0.PosY + spriteNum*2
+}
+.macro Vic_SetSpriteColor(spriteNum, color){
+	lda #color
+	sta Vic.Sprite0.Color + spriteNum
 }
 
 .macro Vic_ScreenSetup(mask) {
