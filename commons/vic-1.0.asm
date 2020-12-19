@@ -69,6 +69,24 @@
 		.label DoubleWidth = $d01d
 		.label SpriteCollision = $d01e
 		.label BackgroundCollision = $d01f
+
+		.label SPRITE_0 = %00000001
+		.label SPRITE_1 = %00000010
+		.label SPRITE_2 = %00000100
+		.label SPRITE_3 = %00001000
+		.label SPRITE_4 = %00010000
+		.label SPRITE_5 = %00100000
+		.label SPRITE_6 = %01000000
+		.label SPRITE_7 = %10000000
+
+		.label SPRITE_0_PTR = $3f8
+		.label SPRITE_1_PTR = $3f9
+		.label SPRITE_2_PTR = $3fa
+		.label SPRITE_3_PTR = $3fb
+		.label SPRITE_4_PTR = $3fc
+		.label SPRITE_5_PTR = $3fd
+		.label SPRITE_6_PTR = $3fe
+		.label SPRITE_7_PTR = $3ff
 	}
 
 	Color: {
@@ -85,6 +103,18 @@
 		.label Control1 = $d011
 		.label RasterLine = $d012 
 		.label Control2 = $d015
+
+		.label CTRL1_VERTICAL_SCROLL_BITMASK 	= %11111000
+		.label CTRL1_SCREEN_SETUP_BITMASK 		= %10000111
+
+		.label CTRL1_SCREEN_HEIGTH_24 			= %00000000
+		.label CTRL1_SCREEN_HEIGTH_25 			= %00001000
+		.label CTRL1_SCREEN_DMA_OFF 			= %00000000
+		.label CTRL1_SCREEN_DMA_ON	 			= %00010000
+		.label CTRL1_SCREEN_MODE_TEXT 			= %00000000
+		.label CTRL1_SCREEN_MODE_BITMAP			= %00100000
+		.label CTRL1_EXT_BACKGROUND_OFF			= %00000000
+		.label CTRL1_EXT_BACKGROUND_ON			= %01000000
 	}
 
 	Memory:{
@@ -143,21 +173,42 @@
 	}
 }
 
+.macro Vic_AckInterrupts() {
+	asl	Vic.Interrupts.Status
+}
+
 .macro Vic_ClearMSBRasterLine() {
-	lda Vic.Screen.RasterLine
+	lda Vic.Screen.Control1
 	and #$7f
+	sta Vic.Screen.Control1
+}
+
+.macro Vic_EnableInterrupts(mask) {
+	lda #mask
+	sta Vic.Interrupts.Enabled
+}
+
+.macro Vic_SetLSBRasterLine(value) {
+	lda #value
 	sta Vic.Screen.RasterLine
 }
 
 .macro Vic_SetMSBRasterLine() {
-	lda Vic.Screen.RasterLine
+	lda Vic.Screen.Control1
 	ora #$80
-	sta Vic.Screen.RasterLine
+	sta Vic.Screen.Control1
 }
 
-.macro Vic_SetInterrupts(value) {
-	lda value
-	sta Vic.Interrupts.Enabled
+.macro Vic_SetSpriteDataAddr(screenAddr, spriteNum, addr) {
+	lda #[addr/64]
+	sta screenAddr + $3f8 + spriteNum
+}
+
+.macro Vic_ScreenSetup(mask) {
+	lda Vic.Screen.Control1
+	and #Vic.Screen.CTRL1_SCREEN_SETUP_BITMASK
+	ora #mask
+	sta Vic.Screen.Control1
 }
 
 .macro Vic_WaitLSBRasterLine(line) {
