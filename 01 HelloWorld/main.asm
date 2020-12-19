@@ -1,6 +1,8 @@
 /*
 	author: padnest@gmail.com
 	assembler: kick assembler 5.16
+
+	a classic 'hello world' program just to warm up!
 */
 BasicUpstart2(start)
 
