@@ -11,6 +11,7 @@
 .namespace Vic {
 
 	.label SCREEN_ADDR = $0400
+	.label SPRITE_DATA_PTR_DELTA = $03f8
 	.label COLOR_RAM_ADDR = $d800
 
 	Sprite0: {
@@ -100,22 +101,22 @@
 		.label Sprites1 = $d025
 		.label Sprites2 = $d026
 
-		.label COLOR_BLACK 	= 0
-		.label COLOR_WHITE 	= 1
-		.label COLOR_RED 	= 2
-		.label COLOR_CYAN 	= 3
-		.label COLOR_PURPLE = 4
-		.label COLOR_GREEN 	= 5
-		.label COLOR_BLUE	= 6
-		.label COLOR_YELLOW = 7
-		.label COLOR_ORANGE = 8
-		.label COLOR_BROWN 	= 9
-		.label COLOR_LT_RED = 10
-		.label COLOR_DK_GREY = 11
-		.label COLOR_MD_GREY = 12
-		.label COLOR_LT_GREEN = 13
-		.label COLOR_LT_BLUE = 14
-		.label COLOR_LT_GRAY = 15
+		.label BLACK 	= 0
+		.label WHITE 	= 1
+		.label RED 		= 2
+		.label CYAN 	= 3
+		.label PURPLE 	= 4
+		.label GREEN 	= 5
+		.label BLUE		= 6
+		.label YELLOW 	= 7
+		.label ORANGE 	= 8
+		.label BROWN 	= 9
+		.label LIGHT_RED 	= 10
+		.label DARK_GREY 	= 11
+		.label MED_GREY 	= 12
+		.label LIGHT_GREEN 	= 13
+		.label LIGHT_BLUE 	= 14
+		.label LIGHT_GRAY 	= 15
 	}
 
 	Screen:{
@@ -207,6 +208,18 @@
 	sta Vic.Interrupts.Enabled
 }
 
+.macro Vic_FillScreen(screenAddr, value) {
+	lda #value
+	ldx #0
+!:
+	sta screenAddr, x
+	sta screenAddr + $100, x
+	sta screenAddr + $200, x
+	sta screenAddr + $300, x
+	inx
+	bne !-
+}
+
 .macro Vic_SetLSBRasterLine(value) {
 	lda #value
 	sta Vic.Screen.RasterLine
@@ -220,7 +233,7 @@
 
 .macro Vic_SetSpriteDataAddr(screenAddr, spriteNum, addr) {
 	lda #[addr/64]
-	sta screenAddr + $3f8 + spriteNum
+	sta screenAddr + Vic.SPRITE_DATA_PTR_DELTA + spriteNum
 }
 
 .macro Vic_SetSpritePosX(spriteNum, posX){
