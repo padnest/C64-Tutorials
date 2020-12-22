@@ -115,15 +115,29 @@
 
 .namespace Cia {
 
-	.label JOY_UP 		= %00000001
-	.label JOY_DOWN 	= %00000010
-	.label JOY_LEFT		= %00000100
-	.label JOY_RIGHT	= %00001000
-	.label JOY_FIRE		= %00010000
+	Joystick:{
+		.label Port1 = Cia1.PortB.Data
+		.label Port2 = Cia1.PortA.Data
+
+		.label UP 		= %00000001
+		.label DOWN 	= %00000010
+		.label LEFT		= %00000100
+		.label RIGHT	= %00001000
+		.label FIRE		= %00010000
+	}
 }
 
 .macro Cia_DisableAllInterrupts() {
 	lda #$7f
 	sta Cia1.Interrupts.Control
 	sta Cia2.Interrupts.Control
+}
+
+.macro Cia_ReadJoystick(portNum) {
+	.if(portNum==1){
+		lda Cia.Port1
+	}
+	else{
+		lda Cia.Port2
+	}
 }

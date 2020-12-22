@@ -15,7 +15,7 @@
 
 }
 
-.macro ClearScreen() {
+.macro Kernal_ClearScreen() {
 	jsr Kernal.CLEAR_SCREEN
 }
 

@@ -179,18 +179,6 @@
 		.label ACK					= %10000000
 	}
 
-	// doesn't works outside Vic.ClearMSBRasterLine() = syntax error (it should be?)
-	.macro ClearMSBRasterLine() {
-		lda Screen.RasterLine
-		and #$7f
-		sta Screen.RasterLine
-	}
-
-	.macro SetMSBRasterLine() {
-		lda Screen.RasterLine
-		ora #$80
-		sta Screen.RasterLine
-	}
 }
 
 .macro Vic_AckInterrupts() {
@@ -231,9 +219,19 @@
 	sta Vic.Screen.Control1
 }
 
-.macro Vic_SetSpriteDataAddr(screenAddr, spriteNum, addr) {
-	lda #[addr/64]
+.macro Vic_SetSpriteDataAddr(screenAddr, spriteNum, dataAddr) {
+	lda #[dataAddr/64]
 	sta screenAddr + Vic.SPRITE_DATA_PTR_DELTA + spriteNum
+}
+
+.macro Vic_SetSpriteFrame(screenAddr, spriteNum, dataAddr, frameNum){
+	lda #[dataAddr/64 + frameNum]
+	sta screenAddr + Vic.SPRITE_DATA_PTR_DELTA + spriteNum
+}
+
+.macro Vic_SetSpritePos(spriteNum, posX, posY){
+	Vic_SetSpritePosY(spriteNum, posY)
+	Vic_SetSpritePosX(spriteNum, posX)
 }
 
 .macro Vic_SetSpritePosX(spriteNum, posX){
@@ -248,13 +246,26 @@
 	}
 	sta Vic.Sprites.PosX
 }
+
 .macro Vic_SetSpritePosY(spriteNum, posY){
 	lda #<posY
 	sta Vic.Sprite0.PosY + spriteNum*2
 }
+
 .macro Vic_SetSpriteColor(spriteNum, color){
 	lda #color
 	sta Vic.Sprite0.Color + spriteNum
+}
+
+.macro Vic_SetSpriteEnabled(spriteNum, state) {
+	lda Vic.Sprites.Enabled
+	.if(state){
+		ora #[pow(2, spriteNum)]
+	}
+	else{
+		and #[255 - pow(2, spriteNum)]
+	}
+	sta Vic.Sprites.Enabled
 }
 
 .macro Vic_ScreenSetup(mask) {
