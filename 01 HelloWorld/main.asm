@@ -1,12 +1,17 @@
 /*
 	author: padnest@gmail.com
 	assembler: kick assembler 5.16
-
-	a classic 'hello world' program just to warm up!
 */
-BasicUpstart2(start)
+/******************************************************************************	
+	HelloWorld - main
+	
+	goals:
+		- a classic 'hello world' program just to warm up!
+*******************************************************************************/
 
-start:
+BasicUpstart2(Start)
+
+Start:{
 	lda #0
     sta $D020
     sta $D021
@@ -22,8 +27,9 @@ start:
 	bne !-
 exit:
 	rts
+}
 
-HelloMsg:
 .encoding "screencode_upper"
+HelloMsg:
 .text "HELLO WORLD!"
 .byte 0
